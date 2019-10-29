@@ -1,4 +1,3 @@
-#fucking pycurl on 3.7: http://pycurl.io/docs/latest/install.html#pip-and-cached-pycurl-package
 import requests
 import json
 
