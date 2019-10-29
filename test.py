@@ -1,5 +1,20 @@
-#fucking pycurl on 3.7
-import wptools
+#fucking pycurl on 3.7: http://pycurl.io/docs/latest/install.html#pip-and-cached-pycurl-package
+import requests
+import json
 
-so = wptools.page('Stack Overflow').get_parse()
-so.infobox
+
+xyz = 'Sinead_Osbourne'
+url = 'https://coronationstreet.fandom.com/wiki/' + xyz
+resp = requests.get(url, params={'action': 'raw'})
+page = resp.text
+
+data = {}
+
+for line in page.splitlines():
+       if line.startswith('|'):
+              data[line.partition('=')[0].strip()] = line.partition('=')[-1].strip()
+              
+
+
+json_data = json.dumps(data)
+print(json_data) 
