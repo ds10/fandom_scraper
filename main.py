@@ -45,10 +45,10 @@ def extractBox(url="https://coronationstreet.fandom.com/",name="Amy_Barlow"):
 
               #process key
               try:
-                     data[name][key] = value
+                     data[key] = value
               except:
-                     data[name] = {}
-                     data[name][key] = value
+                     data = {}
+                     data[key] = value
       
     #json_data = json.dumps(data, indent=4, sort_keys=True)
 
@@ -84,7 +84,6 @@ if __name__ == "__main__":
               result = extractURLs("https://coronationstreet.fandom.com//api.php?action=query&format=json&list=categorymembers&cmtitle=Category:Coronation_Street_characters&cmlimit=500" + "&cmcontinue=" + cont)
               cont = result[0]
               titles.append(result[1])
-
 
        full_data = {}
 
