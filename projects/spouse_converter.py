@@ -8,7 +8,7 @@ if __name__ == "__main__":
 
     csv = ""
 
-    with open('json_data.json') as data_file:
+    with open('fandom.json') as data_file:
         data = json.load(data_file)
         for v in data.items():
             try:

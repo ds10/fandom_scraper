@@ -104,6 +104,6 @@ if __name__ == "__main__":
 
     json_data = json.dumps(full_data, indent=4, sort_keys=True)
 
-    with open("fandom.json", 'w') as f:
+    with open("projects/fandom.json", 'w') as f:
         f.write(json_data)
 
