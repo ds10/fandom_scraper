@@ -91,14 +91,16 @@ if __name__ == "__main__":
     while cont != "1":
         url = ''.join([BASE_QUERY_URL, CATEGORY, URL_SUFFIX, cont])
         result = extractURLs(url)
+        titles.extend(result[1])
         cont = result[0]
-        titles.append(result[1])
+
+    # filter out Category pages
+    titles = [x for x in titles if "Category:" not in x]
 
     full_data = {}
 
     for title in titles:
-            for wtf in title:
-                    full_data[wtf] = extractBox(url=FANDOM_URL,name=wtf)
+        full_data[title] = extractBox(url=FANDOM_URL,name=title)
 
     json_data = json.dumps(full_data, indent=4, sort_keys=True)
 
