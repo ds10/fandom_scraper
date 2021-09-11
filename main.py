@@ -2,6 +2,9 @@ import requests
 import urllib.request
 import json
 import re
+import ssl
+
+SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
 
 
@@ -60,7 +63,7 @@ def extractBox(url="https://coronationstreet.fandom.com/",name="Amy_Barlow"):
 def extractURLs(fullurl):
     print(fullurl)
     names = []
-    with urllib.request.urlopen(fullurl) as url:
+    with urllib.request.urlopen(fullurl, context=SSL_CONTEXT) as url:
         data = json.loads(url.read().decode())
         for item in data['query']['categorymembers']: 
             for key in item:
