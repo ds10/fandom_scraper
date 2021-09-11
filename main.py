@@ -67,14 +67,12 @@ def extractURLs(fullurl):
         data = json.loads(url.read().decode())
         for item in data['query']['categorymembers']: 
             for key in item:
-                    if key == "title":  
+                    if key == "title":
                         names.append(item[key])
     try:
-        cmcontinue = data['query-continue']['categorymembers']['cmcontinue']
-    except:
+        cmcontinue = data['continue']['cmcontinue']
+    except KeyError:
         cmcontinue = "1"
-
-       
     return cmcontinue, names
 
 
