@@ -5,13 +5,15 @@ import re
 import ssl
 
 SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+FANDOM_SITE = 'coronationstreet'
+FANDOM_URL = f'https://{FANDOM_SITE}.fandom.com'
 
 
-
-def extractBox(url="https://coronationstreet.fandom.com/",name="Amy_Barlow"):
+def extractBox(url=FANDOM_URL,name="Amy_Barlow"):
     #xyz = 'Stella_Price'
     print(name)
-    fullurl = url + name
+    name = '_'.join(name.split())
+    fullurl = '/'.join([url, name])
     resp = requests.get(fullurl, params={'action': 'raw'})
     page = resp.text
 
