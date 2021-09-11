@@ -19,46 +19,45 @@ def extractBox(url=FANDOM_URL,name="Amy_Barlow"):
 
     data = {}
     json_data = {}
-    
+
     for line in page.splitlines():
+        if line.startswith('|'):
+            value = line.partition('=')[-1].strip() #value  
+            #process value
+            value = value.replace("[[","")
+            value = value.replace("]]","")
+            value = value.replace("}}","")
+            value = value.replace("{{","")
+            value = re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", value)
+            value = value.replace("()","") 
 
-       if line.startswith('|'):
-              value = line.partition('=')[-1].strip() #value  
-              #process value
-              value = value.replace("[[","") 
-              value = value.replace("]]","") 
-              value = value.replace("}}","") 
-              value = value.replace("{{","") 
-       
-              value = re.sub("([\(\[]).*?([\)\]])", "\g<1>\g<2>", value)
-              value = value.replace("()","") 
+            value = value.strip() 
 
-              value = value.strip() 
-              
-              #remove any training white spaces left
-              ##if we have a br the key becomes an array
+            #remove any training white spaces left
+            ##if we have a br the key becomes an array
 
-              if("<br>" in value):
-                     ##value = value.partition('<br>')
-                     ##value = [x for x in value if x != "<br>"]
-                     ##value = [x.strip() for x in value]
-                     value = value.split('<br>')
-                     value = [x.strip() for x in value]
+            if any(x in value for x in ['<br />', '<br>', '<br/>']):
+                value = value.replace('<br />', '<br>').replace('<br/>', '<br>')
+                ##value = value.partition('<br>')
+                ##value = [x for x in value if x != "<br>"]
+                ##value = [x.strip() for x in value]
+                value = value.split('<br>')
+                value = [x.strip() for x in value]
 
-              key = line.partition('=')[0].strip()[1:] #key
-              key = key.strip()
+            key = line.partition('=')[0].strip()[1:] #key
+            key = key.strip()
 
-              #process key
-              try:
-                     data[key] = value
-              except:
-                     data = {}
-                     data[key] = value
-      
+            #process key
+            try:
+                data[key] = value
+            except:
+                data = {}
+                data[key] = value
+
     #json_data = json.dumps(data, indent=4, sort_keys=True)
 
 
-    return(data)
+    return data
 
 
 
