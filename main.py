@@ -4,9 +4,15 @@ import json
 import re
 import ssl
 
-SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+# change these two variables to change the fandom instance & character category
 FANDOM_SITE = 'coronationstreet'
+CATEGORY = 'Coronation_Street_characters'
+
 FANDOM_URL = f'https://{FANDOM_SITE}.fandom.com'
+API_URL = FANDOM_URL + '/api.php'
+BASE_QUERY_URL = API_URL + '?action=query&format=json&list=categorymembers&cmtitle=Category:'
+URL_SUFFIX = '&cmlimit=500&cmcontinue='
+SSL_CONTEXT = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
 
 
 def extractBox(url=FANDOM_URL,name="Amy_Barlow"):
@@ -79,22 +85,23 @@ def extractURLs(fullurl):
 
 if __name__ == "__main__":
 
-       cont = "0"
-       titles = []
+    cont = "0"
+    titles = []
 
-       while cont != "1": 
-              result = extractURLs("https://coronationstreet.fandom.com//api.php?action=query&format=json&list=categorymembers&cmtitle=Category:Coronation_Street_characters&cmlimit=500" + "&cmcontinue=" + cont)
-              cont = result[0]
-              titles.append(result[1])
+    while cont != "1":
+        url = ''.join([BASE_QUERY_URL, CATEGORY, URL_SUFFIX, cont])
+        result = extractURLs(url)
+        cont = result[0]
+        titles.append(result[1])
 
-       full_data = {}
+    full_data = {}
 
-       for title in titles:
-              for wtf in title:
-                     full_data[wtf] = extractBox(url="https://coronationstreet.fandom.com/",name=wtf)
+    for title in titles:
+            for wtf in title:
+                    full_data[wtf] = extractBox(url=FANDOM_URL,name=wtf)
 
-       json_data = json.dumps(full_data, indent=4, sort_keys=True)
+    json_data = json.dumps(full_data, indent=4, sort_keys=True)
 
-       f = open("json_data.json", 'w') 
-       f.write(json_data)
+    with open("fandom.json", 'w') as f:
+        f.write(json_data)
 
