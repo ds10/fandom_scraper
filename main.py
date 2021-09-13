@@ -249,26 +249,11 @@ def extractURLs(fullurl):
 
 
 if __name__ == "__main__":
+    print(f'Getting {CATEGORIES} infoboxes from fandom site {FANDOM_SITE}\n')
+    # create infobox dict
+    infoboxes = get_infoboxes(categories=CATEGORIES)
 
-    cont = "0"
-    titles = []
-
-    while cont != "1":
-        url = ''.join([BASE_QUERY_URL, CATEGORY, URL_SUFFIX, cont])
-        result = extractURLs(url)
-        titles.extend(result[1])
-        cont = result[0]
-
-    # filter out Category pages
-    titles = [x for x in titles if "Category:" not in x]
-
-    full_data = {}
-
-    for title in titles:
-        full_data[title] = extractBox(url=FANDOM_URL,name=title)
-
-    json_data = json.dumps(full_data, indent=4, sort_keys=True)
-
-    with open("projects/fandom.json", 'w') as f:
-        f.write(json_data)
+    # output infobox dict to json file
+    print('Writing infoboxes to .json file\n')
+    write_infobox_json(infoboxes=infoboxes)
 
