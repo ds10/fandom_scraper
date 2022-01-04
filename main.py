@@ -456,7 +456,7 @@ class WikiInfobox(WikiAPI):
             df = next(iter(self.dfs.values()))
         df = df.set_index('page_title', drop=True)
         json_data = df.to_json(indent=4, orient='index')
-        with open("projects/fandom.json", 'w') as f:
+        with open(JSON_FILE, 'w') as f:
             f.write(json_data)
 
     def sort_infoboxes_by_template(self, infoboxes=None, alert_empty=None):
