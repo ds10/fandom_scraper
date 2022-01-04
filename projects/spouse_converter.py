@@ -2,13 +2,14 @@ import requests
 import urllib.request
 import json
 import re
+from main import JSON_FILE
 
 
 if __name__ == "__main__":
 
     csv = ""
 
-    with open('coronationstreet.json') as data_file:
+    with open(JSON_FILE) as data_file:
         data = json.load(data_file)
         for v in data.items():
             try:
